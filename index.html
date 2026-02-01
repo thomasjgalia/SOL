@@ -145,8 +145,12 @@
       const randomIndex = Math.floor(Math.random() * carouselImages.length);
       currentIndex = randomIndex;
 
+      // Handle both string URLs (old format) and object format (new format)
+      const item = carouselImages[currentIndex];
+      const imageUrl = typeof item === 'string' ? item : item.url;
+
       // Update image
-      carouselImg.src = carouselImages[currentIndex];
+      carouselImg.src = imageUrl;
       carouselImg.alt = `Photo ${currentIndex + 1}`;
     }
 
