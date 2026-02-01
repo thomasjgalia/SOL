@@ -10,12 +10,26 @@
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 
     /* Header Navigation */
-    header { background: #1a1a1a; color: white; padding: 16px 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    header h1 { margin: 0 0 12px 0; font-size: 28px; }
-    nav { display: flex; gap: 24px; justify-content: center; }
-    nav a { color: white; text-decoration: none; font-size: 16px; padding: 8px 12px; border-radius: 4px; transition: background 0.2s; }
-    nav a:hover { background: rgba(255,255,255,0.1); }
-    nav a.active { background: rgba(255,255,255,0.2); }
+    header { background: #1a1a1a; color: white; padding: 16px 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+    header h1 { margin: 0; font-size: 28px; }
+
+    /* Hamburger Menu */
+    .hamburger { cursor: pointer; display: flex; flex-direction: column; gap: 6px; padding: 8px; z-index: 1001; }
+    .hamburger span { display: block; width: 30px; height: 3px; background: white; border-radius: 2px; transition: all 0.3s; }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+
+    /* Navigation Menu */
+    nav { position: fixed; top: 0; right: -300px; width: 300px; height: 100vh; background: #2a2a2a; padding: 80px 0 20px; transition: right 0.3s; z-index: 1000; box-shadow: -2px 0 8px rgba(0,0,0,0.3); }
+    nav.active { right: 0; }
+    nav a { display: block; color: white; text-decoration: none; font-size: 18px; padding: 16px 24px; transition: background 0.2s; border-left: 4px solid transparent; }
+    nav a:hover { background: rgba(255,255,255,0.1); border-left-color: #0070f3; }
+    nav a.active { background: rgba(255,255,255,0.15); border-left-color: #0070f3; }
+
+    /* Overlay */
+    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
+    .overlay.active { display: block; }
 
     /* Carousel */
     .carousel { max-width: 800px; margin: 32px auto; padding: 0 16px; }
@@ -33,13 +47,23 @@
   </style>
 </head>
 <body>
+  <div class="overlay" id="overlay"></div>
+
   <header>
     <h1>Sons of Liberty</h1>
-    <nav>
-      <a href="index.html" class="active">Home</a>
-      <a href="photos.html">Photos</a>
-    </nav>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </header>
+
+  <nav id="nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="photos.html">Photo Albums</a>
+    <a href="https://golf.filiilibertatis.com/" target="_blank" rel="noopener noreferrer">SOL Golf</a>
+    <a href="https://cornhole.filiilibertatis.com/" target="_blank" rel="noopener noreferrer">SOL Cornhole</a>
+  </nav>
 
   <div class="carousel">
     <div class="carousel-container">
@@ -48,24 +72,26 @@
   </div>
 
   <main>
-    <h2>Our Apps</h2>
-    <ul role="list">
-      <li>
-        <a href="https://golf.filiilibertatis.com/"
-           target="_blank" rel="noopener noreferrer" class="app-link">
-          SOL Golf Scoring App
-        </a>
-      </li>
-      <li>
-        <a href="https://cornhole.filiilibertatis.com/"
-           target="_blank" rel="noopener noreferrer" class="app-link">
-          SOL Cornhole App
-        </a>
-      </li>
-    </ul>
+    <h2>Welcome to Sons of Liberty</h2>
+    <p>Explore our photo albums and apps using the menu.</p>
   </main>
 
   <script>
+    // Hamburger menu functionality
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+    const overlay = document.getElementById('overlay');
+
+    function toggleMenu() {
+      hamburger.classList.toggle('active');
+      nav.classList.toggle('active');
+      overlay.classList.toggle('active');
+    }
+
+    hamburger.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', toggleMenu);
+
+    // Carousel functionality
     let carouselImages = [];
     let currentIndex = 0;
     const carouselImg = document.getElementById('carousel-img');
