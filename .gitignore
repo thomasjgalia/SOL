@@ -1,0 +1,25 @@
+# Node.js
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Cloudinary credentials (keep local only)
+fetch-cloudinary-images.js
+package.json
+
+# Environment variables
+.env
+.env.local
+
+# Temporary files
+CNAME.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
