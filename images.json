@@ -1,7 +1,7 @@
 {
   "cloudName": "ddnebrkpu",
-  "lastUpdated": "2026-02-01T19:49:31.478Z",
-  "totalImages": 193,
+  "lastUpdated": "2026-02-01T20:00:07.761Z",
+  "totalImages": 185,
   "carouselImages": [
     {
       "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957596/IMG_0317.jpg_compressed_ctzjvp.jpg",
@@ -309,16 +309,6 @@
       "isVideo": true
     },
     {
-      "url": "https://res.cloudinary.com/ddnebrkpu/video/upload/so_0,f_jpg,q_auto/v1769957677/IMG_20220423_215419_h2qstz.mov",
-      "originalUrl": "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957677/IMG_20220423_215419_h2qstz.mov",
-      "isVideo": true
-    },
-    {
-      "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957676/IMG_20220423_215419.jpeg_compressed_e4wr3y.jpg",
-      "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957676/IMG_20220423_215419.jpeg_compressed_e4wr3y.jpg",
-      "isVideo": false
-    },
-    {
       "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957676/IMG_20220423_224523.jpeg_compressed_xdhl8u.jpg",
       "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957676/IMG_20220423_224523.jpeg_compressed_xdhl8u.jpg",
       "isVideo": false
@@ -464,16 +454,6 @@
       "isVideo": false
     },
     {
-      "url": "https://res.cloudinary.com/ddnebrkpu/video/upload/so_0,f_jpg,q_auto/v1769957696/IMG_2428_dyqfuq.mov",
-      "originalUrl": "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957696/IMG_2428_dyqfuq.mov",
-      "isVideo": true
-    },
-    {
-      "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957695/IMG_2428.jpeg_compressed_r2f2gt.jpg",
-      "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957695/IMG_2428.jpeg_compressed_r2f2gt.jpg",
-      "isVideo": false
-    },
-    {
       "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957694/IMG_1155.HEIC_compressed_x3lxtp.jpg",
       "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957694/IMG_1155.HEIC_compressed_x3lxtp.jpg",
       "isVideo": false
@@ -524,11 +504,6 @@
       "isVideo": false
     },
     {
-      "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957687/IMG_1124.HEIC_compressed_vbjfu8.jpg",
-      "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957687/IMG_1124.HEIC_compressed_vbjfu8.jpg",
-      "isVideo": false
-    },
-    {
       "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769968703/IMG_2381_w9keof.jpg",
       "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769968703/IMG_2381_w9keof.jpg",
       "isVideo": false
@@ -547,11 +522,6 @@
       "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957716/IMG_1723.HEIC_compressed_vs4gpl.jpg",
       "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957716/IMG_1723.HEIC_compressed_vs4gpl.jpg",
       "isVideo": false
-    },
-    {
-      "url": "https://res.cloudinary.com/ddnebrkpu/video/upload/so_0,f_jpg,q_auto/v1769957715/IMG_0727_wihggd.mov",
-      "originalUrl": "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957715/IMG_0727_wihggd.mov",
-      "isVideo": true
     },
     {
       "url": "https://res.cloudinary.com/ddnebrkpu/video/upload/so_0,f_jpg,q_auto/v1769957715/IMG_0732_cevzlv.mov",
@@ -599,11 +569,6 @@
       "isVideo": true
     },
     {
-      "url": "https://res.cloudinary.com/ddnebrkpu/video/upload/so_0,f_jpg,q_auto/v1769957705/IMG_0109_1_flfxja.mov",
-      "originalUrl": "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957705/IMG_0109_1_flfxja.mov",
-      "isVideo": true
-    },
-    {
       "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957704/IMG_0302.jpeg_compressed_cmimlj.jpg",
       "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957704/IMG_0302.jpeg_compressed_cmimlj.jpg",
       "isVideo": false
@@ -611,11 +576,6 @@
     {
       "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957702/IMG_0109_1.jpeg_compressed_kh7op7.jpg",
       "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957702/IMG_0109_1.jpeg_compressed_kh7op7.jpg",
-      "isVideo": false
-    },
-    {
-      "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957702/IMG_0109.jpeg_compressed_ytotyl.jpg",
-      "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957702/IMG_0109.jpeg_compressed_ytotyl.jpg",
       "isVideo": false
     },
     {
@@ -1357,8 +1317,8 @@
       "title": "2024, SOL April",
       "folder": "2024, SOL April",
       "coverImage": {
-        "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957714/IMG_0734.png_compressed_vzevp0.jpg",
-        "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957714/IMG_0734.png_compressed_vzevp0.jpg",
+        "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957712/IMG_0734.jpeg_compressed_ymd5tm.jpg",
+        "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957712/IMG_0734.jpeg_compressed_ymd5tm.jpg",
         "isVideo": false
       },
       "images": [
@@ -1381,11 +1341,6 @@
           "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957716/IMG_1723.HEIC_compressed_vs4gpl.jpg",
           "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957716/IMG_1723.HEIC_compressed_vs4gpl.jpg",
           "isVideo": false
-        },
-        {
-          "url": "https://res.cloudinary.com/ddnebrkpu/video/upload/so_0,f_jpg,q_auto/v1769957715/IMG_0727_wihggd.mov",
-          "originalUrl": "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957715/IMG_0727_wihggd.mov",
-          "isVideo": true
         },
         {
           "url": "https://res.cloudinary.com/ddnebrkpu/video/upload/so_0,f_jpg,q_auto/v1769957715/IMG_0732_cevzlv.mov",
@@ -1433,11 +1388,6 @@
           "isVideo": true
         },
         {
-          "url": "https://res.cloudinary.com/ddnebrkpu/video/upload/so_0,f_jpg,q_auto/v1769957705/IMG_0109_1_flfxja.mov",
-          "originalUrl": "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957705/IMG_0109_1_flfxja.mov",
-          "isVideo": true
-        },
-        {
           "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957704/IMG_0302.jpeg_compressed_cmimlj.jpg",
           "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957704/IMG_0302.jpeg_compressed_cmimlj.jpg",
           "isVideo": false
@@ -1445,11 +1395,6 @@
         {
           "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957702/IMG_0109_1.jpeg_compressed_kh7op7.jpg",
           "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957702/IMG_0109_1.jpeg_compressed_kh7op7.jpg",
-          "isVideo": false
-        },
-        {
-          "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957702/IMG_0109.jpeg_compressed_ytotyl.jpg",
-          "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957702/IMG_0109.jpeg_compressed_ytotyl.jpg",
           "isVideo": false
         }
       ]
@@ -1486,16 +1431,6 @@
         {
           "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957696/IMG_5164.jpeg_compressed_vx3iq2.jpg",
           "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957696/IMG_5164.jpeg_compressed_vx3iq2.jpg",
-          "isVideo": false
-        },
-        {
-          "url": "https://res.cloudinary.com/ddnebrkpu/video/upload/so_0,f_jpg,q_auto/v1769957696/IMG_2428_dyqfuq.mov",
-          "originalUrl": "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957696/IMG_2428_dyqfuq.mov",
-          "isVideo": true
-        },
-        {
-          "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957695/IMG_2428.jpeg_compressed_r2f2gt.jpg",
-          "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957695/IMG_2428.jpeg_compressed_r2f2gt.jpg",
           "isVideo": false
         },
         {
@@ -1546,11 +1481,6 @@
         {
           "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957688/IMG_1144.HEIC_compressed_yflky0.jpg",
           "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957688/IMG_1144.HEIC_compressed_yflky0.jpg",
-          "isVideo": false
-        },
-        {
-          "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957687/IMG_1124.HEIC_compressed_vbjfu8.jpg",
-          "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957687/IMG_1124.HEIC_compressed_vbjfu8.jpg",
           "isVideo": false
         }
       ]
@@ -1626,8 +1556,8 @@
       "title": "2022, SOL April",
       "folder": "2022, SOL April",
       "coverImage": {
-        "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957676/IMG_20220423_215419.jpeg_compressed_e4wr3y.jpg",
-        "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957676/IMG_20220423_215419.jpeg_compressed_e4wr3y.jpg",
+        "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957675/IMG_20220423_194112.jpeg_compressed_ghwpad.jpg",
+        "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957675/IMG_20220423_194112.jpeg_compressed_ghwpad.jpg",
         "isVideo": false
       },
       "images": [
@@ -1635,16 +1565,6 @@
           "url": "https://res.cloudinary.com/ddnebrkpu/video/upload/so_0,f_jpg,q_auto/v1769957677/IMG_20220423_105106_n6pukn.mov",
           "originalUrl": "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957677/IMG_20220423_105106_n6pukn.mov",
           "isVideo": true
-        },
-        {
-          "url": "https://res.cloudinary.com/ddnebrkpu/video/upload/so_0,f_jpg,q_auto/v1769957677/IMG_20220423_215419_h2qstz.mov",
-          "originalUrl": "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957677/IMG_20220423_215419_h2qstz.mov",
-          "isVideo": true
-        },
-        {
-          "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957676/IMG_20220423_215419.jpeg_compressed_e4wr3y.jpg",
-          "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957676/IMG_20220423_215419.jpeg_compressed_e4wr3y.jpg",
-          "isVideo": false
         },
         {
           "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957676/IMG_20220423_224523.jpeg_compressed_xdhl8u.jpg",
