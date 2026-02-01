@@ -181,15 +181,21 @@
         return;
       }
 
-      container.innerHTML = albums.map((album, index) => `
-        <div class="album" onclick="openAlbum(${index})">
-          <img class="album-cover" src="${album.coverImage || album.images[0] || 'https://via.placeholder.com/300x250/cccccc/666666?text=No+Images'}" alt="${album.title}">
-          <div class="album-info">
-            <h3 class="album-title">${album.title}</h3>
-            <p class="album-count">${album.images.length} photo${album.images.length !== 1 ? 's' : ''}</p>
+      container.innerHTML = albums.map((album, index) => {
+        const coverUrl = album.coverImage
+          ? (typeof album.coverImage === 'string' ? album.coverImage : album.coverImage.url)
+          : (album.images[0] ? (typeof album.images[0] === 'string' ? album.images[0] : album.images[0].url) : 'https://via.placeholder.com/300x250/cccccc/666666?text=No+Images');
+
+        return `
+          <div class="album" onclick="openAlbum(${index})">
+            <img class="album-cover" src="${coverUrl}" alt="${album.title}">
+            <div class="album-info">
+              <h3 class="album-title">${album.title}</h3>
+              <p class="album-count">${album.images.length} photo${album.images.length !== 1 ? 's' : ''}</p>
+            </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     // Open album view
@@ -211,9 +217,17 @@
           </div>
           <h2 style="margin-bottom: 24px;">${album.title}</h2>
           <div class="gallery">
-            ${album.images.map((img, idx) => `
-              <img class="gallery-item" src="${img}" alt="${album.title} - Photo ${idx + 1}" onclick="openModal(${idx})">
-            `).join('')}
+            ${album.images.map((item, idx) => {
+              const imgUrl = typeof item === 'string' ? item : item.url;
+              const isVideo = typeof item === 'object' && item.isVideo;
+              const playIcon = isVideo ? '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">▶</div>' : '';
+              return `
+                <div style="position: relative; width: 100%; height: 200px;">
+                  <img class="gallery-item" src="${imgUrl}" alt="${album.title} - ${isVideo ? 'Video' : 'Photo'} ${idx + 1}" onclick="openModal(${idx})" style="width: 100%; height: 100%; object-fit: cover;">
+                  ${playIcon}
+                </div>
+              `;
+            }).join('')}
           </div>
         </div>
       `;
@@ -238,10 +252,27 @@
     }
 
     function updateModalImage() {
-      const img = document.getElementById('modal-image');
+      const content = document.querySelector('.modal-content');
       const info = document.getElementById('modal-info');
-      img.src = currentAlbum.images[currentImageIndex];
-      info.textContent = `${currentImageIndex + 1} / ${currentAlbum.images.length}`;
+      const item = currentAlbum.images[currentImageIndex];
+
+      const isVideo = typeof item === 'object' && item.isVideo;
+      const displayUrl = typeof item === 'string' ? item : (isVideo ? item.originalUrl : item.url);
+
+      if (isVideo) {
+        content.innerHTML = `
+          <video class="modal-image" controls autoplay style="width: 100%; height: auto; max-height: 85vh; object-fit: contain;">
+            <source src="${displayUrl}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="modal-info" id="modal-info">${currentImageIndex + 1} / ${currentAlbum.images.length}</div>
+        `;
+      } else {
+        content.innerHTML = `
+          <img class="modal-image" src="${displayUrl}" alt="">
+          <div class="modal-info" id="modal-info">${currentImageIndex + 1} / ${currentAlbum.images.length}</div>
+        `;
+      }
     }
 
     // Close modal on escape key

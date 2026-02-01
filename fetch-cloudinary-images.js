@@ -93,9 +93,13 @@ async function fetchAllImages() {
 
         const resources = result.resources || [];
         // Convert URLs to browser-compatible formats (handles HEIC/HEIF images and MOV videos)
-        const convertedUrls = resources.map(r => convertToBrowserFormat(r.secure_url, r.resource_type));
-        folderImages.push(...convertedUrls);
-        allImages.push(...convertedUrls);
+        const convertedItems = resources.map(r => ({
+          url: convertToBrowserFormat(r.secure_url, r.resource_type),
+          originalUrl: r.secure_url,
+          isVideo: r.resource_type === 'video'
+        }));
+        folderImages.push(...convertedItems);
+        allImages.push(...convertedItems);
         nextCursor = result.next_cursor;
       } while (nextCursor);
 
@@ -120,9 +124,13 @@ async function fetchAllImages() {
 
       const resources = result.resources || [];
       // Convert URLs to browser-compatible formats (handles HEIC/HEIF images and MOV videos)
-      const convertedUrls = resources.map(r => convertToBrowserFormat(r.secure_url, r.resource_type));
-      rootImages.push(...convertedUrls);
-      allImages.push(...convertedUrls);
+      const convertedItems = resources.map(r => ({
+        url: convertToBrowserFormat(r.secure_url, r.resource_type),
+        originalUrl: r.secure_url,
+        isVideo: r.resource_type === 'video'
+      }));
+      rootImages.push(...convertedItems);
+      allImages.push(...convertedItems);
       nextCursor = result.next_cursor;
     } while (nextCursor);
 
