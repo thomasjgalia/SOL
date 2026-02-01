@@ -1,0 +1,11 @@
+{
+  "name": "sol-website",
+  "version": "1.0.0",
+  "description": "Sons of Liberty website with Cloudinary photo integration",
+  "scripts": {
+    "fetch-images": "node fetch-cloudinary-images.js"
+  },
+  "dependencies": {
+    "cloudinary": "^2.0.0"
+  }
+}
