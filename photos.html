@@ -83,7 +83,11 @@
       .album-title { font-size: 18px; }
       .album-count { font-size: 13px; }
     }
+    /* Upload Button */
+    .upload-btn { margin-left: 12px; padding: 12px 24px; font-size: 16px; cursor: pointer; background: #0070f3; color: white; border: none; border-radius: 4px; transition: background 0.2s; }
+    .upload-btn:hover { background: #0051cc; }
   </style>
+  <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 </head>
 <body>
   <div class="overlay" id="overlay"></div>
@@ -197,9 +201,14 @@
       const container = document.getElementById('albums-container');
       container.innerHTML = `
         <div style="grid-column: 1/-1;">
-          <button onclick="renderAlbums()" style="margin-bottom: 24px; padding: 12px 24px; font-size: 16px; cursor: pointer; background: #1a1a1a; color: white; border: none; border-radius: 4px;">
-            &larr; Back to Albums
-          </button>
+          <div style="margin-bottom: 24px;">
+            <button onclick="renderAlbums()" style="padding: 12px 24px; font-size: 16px; cursor: pointer; background: #1a1a1a; color: white; border: none; border-radius: 4px;">
+              &larr; Back to Albums
+            </button>
+            <button onclick="openUploadWidget()" class="upload-btn">
+              + Upload Photos
+            </button>
+          </div>
           <h2 style="margin-bottom: 24px;">${album.title}</h2>
           <div class="gallery">
             ${album.images.map((img, idx) => `
@@ -246,6 +255,49 @@
     document.getElementById('modal').addEventListener('click', (e) => {
       if (e.target.id === 'modal') closeModal();
     });
+
+    // Upload Widget
+    function openUploadWidget() {
+      if (!currentAlbum) return;
+
+      const widget = cloudinary.createUploadWidget({
+        cloudName: 'ddnebrkpu',
+        uploadPreset: 'SOLUpload',
+        folder: currentAlbum.folder,
+        sources: ['local', 'camera'],
+        multiple: true,
+        maxFiles: 50,
+        clientAllowedFormats: ['jpg', 'jpeg', 'png', 'gif', 'heic', 'heif'],
+        styles: {
+          palette: {
+            window: '#FFFFFF',
+            windowBorder: '#1a1a1a',
+            tabIcon: '#0070f3',
+            menuIcons: '#1a1a1a',
+            textDark: '#000000',
+            textLight: '#FFFFFF',
+            link: '#0070f3',
+            action: '#0070f3',
+            inactiveTabIcon: '#999999',
+            error: '#F44235',
+            inProgress: '#0078FF',
+            complete: '#20B832',
+            sourceBg: '#f5f5f5'
+          }
+        }
+      }, (error, result) => {
+        if (!error && result && result.event === 'success') {
+          console.log('Upload successful:', result.info);
+        }
+        if (!error && result && result.event === 'close') {
+          if (result.info && result.info.files && result.info.files.length > 0) {
+            alert(`${result.info.files.length} photo(s) uploaded successfully! Run "npm run fetch-images" locally to update the site.`);
+          }
+        }
+      });
+
+      widget.open();
+    }
 
     // Initialize - load albums from JSON
     loadAlbums();
