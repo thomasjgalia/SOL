@@ -1,7 +1,7 @@
 {
   "cloudName": "ddnebrkpu",
-  "lastUpdated": "2026-02-01T16:51:13.253Z",
-  "totalImages": 188,
+  "lastUpdated": "2026-02-01T19:07:49.246Z",
+  "totalImages": 193,
   "carouselImages": [
     "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957596/IMG_0317.jpg_compressed_ctzjvp.jpg",
     "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957595/IMG_0314.jpg_compressed_qn7wt8.jpg",
@@ -108,6 +108,7 @@
     "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957688/IMG_1142.HEIC_compressed_nj7cxn.jpg",
     "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957688/IMG_1144.HEIC_compressed_yflky0.jpg",
     "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957687/IMG_1124.HEIC_compressed_vbjfu8.jpg",
+    "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769968703/IMG_2381_w9keof.jpg",
     "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957717/IMG_0731_hwvhyx.mov",
     "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957716/IMG_0521_gwzgsz.mov",
     "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957716/IMG_1723.HEIC_compressed_vs4gpl.jpg",
@@ -125,6 +126,10 @@
     "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957704/IMG_0302.jpeg_compressed_cmimlj.jpg",
     "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957702/IMG_0109_1.jpeg_compressed_kh7op7.jpg",
     "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957702/IMG_0109.jpeg_compressed_ytotyl.jpg",
+    "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769971180/IMG_1589_yjqtf4.mov",
+    "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769968878/IMG_2385_zmpd0j.jpg",
+    "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769968840/IMG_2144_vwcjn1.mov",
+    "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769968775/IMG_1586_izaqyc.mov",
     "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957733/IMG_5937_x5zpa3.mov",
     "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957729/IMG_5937.jpeg_compressed_ixyccf.jpg",
     "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957728/IMG_2390.HEIC_compressed_gbmw7a.jpg",
@@ -262,8 +267,12 @@
     {
       "title": "2024, SOL October",
       "folder": "2024, SOL October",
-      "coverImage": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957729/IMG_5937.jpeg_compressed_ixyccf.jpg",
+      "coverImage": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769968878/IMG_2385_zmpd0j.jpg",
       "images": [
+        "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769971180/IMG_1589_yjqtf4.mov",
+        "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769968878/IMG_2385_zmpd0j.jpg",
+        "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769968840/IMG_2144_vwcjn1.mov",
+        "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769968775/IMG_1586_izaqyc.mov",
         "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957733/IMG_5937_x5zpa3.mov",
         "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957729/IMG_5937.jpeg_compressed_ixyccf.jpg",
         "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957728/IMG_2390.HEIC_compressed_gbmw7a.jpg",
@@ -283,8 +292,9 @@
     {
       "title": "2024, SOL April",
       "folder": "2024, SOL April",
-      "coverImage": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957712/IMG_0734.jpeg_compressed_ymd5tm.jpg",
+      "coverImage": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957714/IMG_0734.png_compressed_vzevp0.jpg",
       "images": [
+        "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769968703/IMG_2381_w9keof.jpg",
         "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957717/IMG_0731_hwvhyx.mov",
         "https://res.cloudinary.com/ddnebrkpu/video/upload/v1769957716/IMG_0521_gwzgsz.mov",
         "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957716/IMG_1723.HEIC_compressed_vs4gpl.jpg",
