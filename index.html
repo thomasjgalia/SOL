@@ -10,8 +10,9 @@
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 
     /* Header Navigation */
-    header { background: #1a1a1a; color: white; padding: 16px 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+    header { background: #1a1a1a; color: white; padding: 16px 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; position: relative; }
     header h1 { margin: 0; font-size: 28px; }
+    header .hamburger { position: absolute; left: 24px; }
 
     /* Hamburger Menu */
     .hamburger { cursor: pointer; display: flex; flex-direction: column; gap: 6px; padding: 8px; z-index: 1001; }
@@ -44,18 +45,37 @@
     li { margin: 12px 0; }
     a.app-link { display: inline-block; margin: 8px 0; font-size: 18px; color: #0070f3; text-decoration: none; }
     a.app-link:hover, a.app-link:focus { text-decoration: underline; }
+
+    /* Mobile Optimizations */
+    @media (max-width: 768px) {
+      header { padding: 12px 16px; }
+      header h1 { font-size: 22px; }
+      header .hamburger { left: 16px; }
+      .carousel { margin: 24px auto; padding: 0 12px; }
+      .carousel-container { height: 250px; }
+      main { padding: 32px 12px; }
+      main h2 { font-size: 24px; margin-bottom: 16px; }
+      main p { font-size: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      header h1 { font-size: 20px; }
+      .carousel-container { height: 220px; }
+      main h2 { font-size: 22px; }
+      main p { font-size: 15px; }
+    }
   </style>
 </head>
 <body>
   <div class="overlay" id="overlay"></div>
 
   <header>
-    <h1>Sons of Liberty</h1>
     <div class="hamburger" id="hamburger">
       <span></span>
       <span></span>
       <span></span>
     </div>
+    <h1>Sons of Liberty</h1>
   </header>
 
   <nav id="nav">
@@ -72,7 +92,7 @@
   </div>
 
   <main>
-    <h2>Welcome to Sons of Liberty</h2>
+    <h2>Sons of Liberty</h2>
     <p>Explore our photo albums and apps using the menu.</p>
   </main>
 

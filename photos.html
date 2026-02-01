@@ -10,8 +10,9 @@
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 
     /* Header Navigation */
-    header { background: #1a1a1a; color: white; padding: 16px 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+    header { background: #1a1a1a; color: white; padding: 16px 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; position: relative; }
     header h1 { margin: 0; font-size: 28px; }
+    header .hamburger { position: absolute; left: 24px; }
 
     /* Hamburger Menu */
     .hamburger { cursor: pointer; display: flex; flex-direction: column; gap: 6px; padding: 8px; z-index: 1001; }
@@ -62,9 +63,25 @@
     .gallery-item { width: 100%; height: 200px; object-fit: cover; cursor: pointer; border-radius: 4px; transition: transform 0.2s; }
     .gallery-item:hover { transform: scale(1.05); }
 
+    /* Mobile Optimizations */
     @media (max-width: 768px) {
+      header { padding: 12px 16px; }
+      header h1 { font-size: 22px; }
+      header .hamburger { left: 16px; }
+      main { padding: 32px 12px; }
+      .page-title h2 { font-size: 24px; margin-bottom: 32px; }
+      .albums-container { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
       .modal-nav { font-size: 24px; padding: 12px; }
       .modal-close { top: 10px; right: 20px; font-size: 30px; }
+    }
+
+    @media (max-width: 480px) {
+      header h1 { font-size: 20px; }
+      main { padding: 24px 12px; }
+      .page-title h2 { font-size: 22px; margin-bottom: 24px; }
+      .albums-container { grid-template-columns: 1fr; gap: 16px; }
+      .album-title { font-size: 18px; }
+      .album-count { font-size: 13px; }
     }
   </style>
 </head>
@@ -72,12 +89,12 @@
   <div class="overlay" id="overlay"></div>
 
   <header>
-    <h1>Sons of Liberty</h1>
     <div class="hamburger" id="hamburger">
       <span></span>
       <span></span>
       <span></span>
     </div>
+    <h1>Sons of Liberty</h1>
   </header>
 
   <nav id="nav">
@@ -162,7 +179,7 @@
 
       container.innerHTML = albums.map((album, index) => `
         <div class="album" onclick="openAlbum(${index})">
-          <img class="album-cover" src="${album.images[0] || 'https://via.placeholder.com/300x250/cccccc/666666?text=No+Images'}" alt="${album.title}">
+          <img class="album-cover" src="${album.coverImage || album.images[0] || 'https://via.placeholder.com/300x250/cccccc/666666?text=No+Images'}" alt="${album.title}">
           <div class="album-info">
             <h3 class="album-title">${album.title}</h3>
             <p class="album-count">${album.images.length} photo${album.images.length !== 1 ? 's' : ''}</p>
