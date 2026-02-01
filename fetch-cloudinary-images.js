@@ -44,18 +44,23 @@ const albumCovers = {
 };
 
 // Convert Cloudinary URLs to browser-compatible formats
-function convertToBrowserFormat(url) {
-  // Cloudinary URLs have format: https://res.cloudinary.com/cloud/image/upload/...
-  // We'll add format transformation to convert HEIC/HEIF to JPG automatically
-
-  if (!url.includes('/image/upload/')) {
-    return url;
+function convertToBrowserFormat(url, resourceType) {
+  // For videos, use Cloudinary's video thumbnail transformation
+  if (resourceType === 'video') {
+    // Replace /video/upload/ with /video/upload/so_0,f_jpg,q_auto/
+    // so_0 = thumbnail from first frame, f_jpg = convert to jpg, q_auto = auto quality
+    return url.replace('/video/upload/', '/video/upload/so_0,f_jpg,q_auto/');
   }
 
-  // Insert f_auto,q_auto transformation after /upload/
-  // f_auto = automatic format (converts HEIC to JPG/PNG)
-  // q_auto = automatic quality optimization
-  return url.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+  // For images, add format transformation to convert HEIC/HEIF to JPG automatically
+  if (url.includes('/image/upload/')) {
+    // Insert f_auto,q_auto transformation after /upload/
+    // f_auto = automatic format (converts HEIC to JPG/PNG)
+    // q_auto = automatic quality optimization
+    return url.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+  }
+
+  return url;
 }
 
 async function fetchAllImages() {
@@ -87,8 +92,8 @@ async function fetchAllImages() {
           .execute();
 
         const resources = result.resources || [];
-        // Convert URLs to browser-compatible formats (handles HEIC/HEIF)
-        const convertedUrls = resources.map(r => convertToBrowserFormat(r.secure_url));
+        // Convert URLs to browser-compatible formats (handles HEIC/HEIF images and MOV videos)
+        const convertedUrls = resources.map(r => convertToBrowserFormat(r.secure_url, r.resource_type));
         folderImages.push(...convertedUrls);
         allImages.push(...convertedUrls);
         nextCursor = result.next_cursor;
@@ -114,7 +119,8 @@ async function fetchAllImages() {
         .execute();
 
       const resources = result.resources || [];
-      const convertedUrls = resources.map(r => convertToBrowserFormat(r.secure_url));
+      // Convert URLs to browser-compatible formats (handles HEIC/HEIF images and MOV videos)
+      const convertedUrls = resources.map(r => convertToBrowserFormat(r.secure_url, r.resource_type));
       rootImages.push(...convertedUrls);
       allImages.push(...convertedUrls);
       nextCursor = result.next_cursor;
