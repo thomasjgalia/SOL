@@ -27,8 +27,6 @@ const config = {
 cloudinary.config(config);
 
 // Custom album covers configuration
-// Add your preferred cover image index for each album (0 = first image, 1 = second, etc.)
-// Leave empty to use the first image by default
 const albumCovers = {
   '2020, SOL November': 1,
   '2021, SOL April': 5,
@@ -43,24 +41,61 @@ const albumCovers = {
   '2025, SOL November': 35
 };
 
+// Check if HEIC file is actually a live photo/video
+function isHEICVideo(resource) {
+  // HEIC live photos have video codec information
+  return resource.format === 'heic' && 
+         resource.resource_type === 'video';
+}
+
 // Convert Cloudinary URLs to browser-compatible formats
-function convertToBrowserFormat(url, resourceType) {
-  // For videos, use Cloudinary's video thumbnail transformation
+function convertToBrowserFormat(resource) {
+  const url = resource.secure_url;
+  const resourceType = resource.resource_type;
+  const format = resource.format;
+
+  // For HEIC live photos (videos), keep them as videos
+  if (isHEICVideo(resource)) {
+    return {
+      url: url,
+      originalUrl: url,
+      isVideo: true,
+      isHEICLivePhoto: true
+    };
+  }
+
+  // For regular videos (MOV, MP4, etc), use video thumbnail
   if (resourceType === 'video') {
-    // Replace /video/upload/ with /video/upload/so_0,f_jpg,q_auto/
-    // so_0 = thumbnail from first frame, f_jpg = convert to jpg, q_auto = auto quality
-    return url.replace('/video/upload/', '/video/upload/so_0,f_jpg,q_auto/');
+    return {
+      url: url.replace('/video/upload/', '/video/upload/so_0,f_jpg,q_auto/'),
+      originalUrl: url,
+      isVideo: true
+    };
   }
 
-  // For images, add format transformation to convert HEIC/HEIF to JPG automatically
+  // For static HEIC/HEIF images, convert to browser-compatible format
+  if (format === 'heic' || format === 'heif') {
+    return {
+      url: url.replace('/image/upload/', '/image/upload/f_auto,q_auto/'),
+      originalUrl: url,
+      isVideo: false
+    };
+  }
+
+  // For regular images, add format transformation
   if (url.includes('/image/upload/')) {
-    // Insert f_auto,q_auto transformation after /upload/
-    // f_auto = automatic format (converts HEIC to JPG/PNG)
-    // q_auto = automatic quality optimization
-    return url.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+    return {
+      url: url.replace('/image/upload/', '/image/upload/f_auto,q_auto/'),
+      originalUrl: url,
+      isVideo: false
+    };
   }
 
-  return url;
+  return {
+    url: url,
+    originalUrl: url,
+    isVideo: false
+  };
 }
 
 async function fetchAllImages() {
@@ -88,16 +123,13 @@ async function fetchAllImages() {
           .expression(`asset_folder="${folder.name}"`)
           .sort_by('created_at', 'desc')
           .max_results(500)
+          .with_field('context')
+          .with_field('metadata')
           .next_cursor(nextCursor)
           .execute();
 
         const resources = result.resources || [];
-        // Convert URLs to browser-compatible formats (handles HEIC/HEIF images and MOV videos)
-        const convertedItems = resources.map(r => ({
-          url: convertToBrowserFormat(r.secure_url, r.resource_type),
-          originalUrl: r.secure_url,
-          isVideo: r.resource_type === 'video'
-        }));
+        const convertedItems = resources.map(r => convertToBrowserFormat(r));
         folderImages.push(...convertedItems);
         allImages.push(...convertedItems);
         nextCursor = result.next_cursor;
@@ -105,11 +137,11 @@ async function fetchAllImages() {
 
       if (folderImages.length > 0) {
         albumsByFolder[folder.name] = folderImages;
-        console.log(`  - Found ${folderImages.length} images in ${folder.name}`);
+        console.log(`  - Found ${folderImages.length} items in ${folder.name}`);
       }
     }
 
-    // Also check for root-level images (not in any folder)
+    // Also check for root-level images
     console.log('Checking for root-level images...');
     const rootImages = [];
     let nextCursor = null;
@@ -119,28 +151,24 @@ async function fetchAllImages() {
         .expression('asset_folder=""')
         .sort_by('created_at', 'desc')
         .max_results(500)
+        .with_field('context')
+        .with_field('metadata')
         .next_cursor(nextCursor)
         .execute();
 
       const resources = result.resources || [];
-      // Convert URLs to browser-compatible formats (handles HEIC/HEIF images and MOV videos)
-      const convertedItems = resources.map(r => ({
-        url: convertToBrowserFormat(r.secure_url, r.resource_type),
-        originalUrl: r.secure_url,
-        isVideo: r.resource_type === 'video'
-      }));
+      const convertedItems = resources.map(r => convertToBrowserFormat(r));
       rootImages.push(...convertedItems);
       allImages.push(...convertedItems);
       nextCursor = result.next_cursor;
     } while (nextCursor);
 
-    console.log(`\nTotal images found: ${allImages.length}`);
-    console.log(`Images in folders: ${allImages.length - rootImages.length}`);
-    console.log(`Images at root: ${rootImages.length}`);
+    console.log(`\nTotal items found: ${allImages.length}`);
+    console.log(`Items in folders: ${allImages.length - rootImages.length}`);
+    console.log(`Items at root: ${rootImages.length}`);
 
     // Format for the website
     const albums = Object.entries(albumsByFolder).map(([folderName, images]) => {
-      // Get custom cover index or default to 0 (first image)
       const coverIndex = albumCovers[folderName] || 0;
       const coverImage = images[coverIndex] || images[0];
 
@@ -152,17 +180,14 @@ async function fetchAllImages() {
       };
     });
 
-    // Sort albums by title (reverse chronological - most recent first)
+    // Sort albums by title (reverse chronological)
     albums.sort((a, b) => b.title.localeCompare(a.title));
-
-    // Collect all images for carousel (all images including root and folders)
-    const carouselImages = allImages;
 
     const output = {
       cloudName: config.cloud_name,
       lastUpdated: new Date().toISOString(),
       totalImages: allImages.length,
-      carouselImages: carouselImages,
+      carouselImages: allImages,
       albums: albums
     };
 
@@ -171,22 +196,24 @@ async function fetchAllImages() {
 
     console.log('\n✓ Successfully generated images.json');
     console.log(`✓ Found ${albums.length} albums`);
-    console.log(`✓ Total ${carouselImages.length} images for carousel\n`);
+    console.log(`✓ Total ${allImages.length} items for carousel\n`);
 
     // Display album summary
     if (albums.length > 0) {
       console.log('Albums:');
       albums.forEach(album => {
-        console.log(`  - ${album.title}: ${album.images.length} photos`);
+        const videoCount = album.images.filter(i => i.isVideo).length;
+        const photoCount = album.images.length - videoCount;
+        console.log(`  - ${album.title}: ${photoCount} photos, ${videoCount} videos`);
       });
     }
 
     if (rootImages.length > 0) {
-      console.log(`\nNote: ${rootImages.length} images found at root level (not in folders)`);
+      console.log(`\nNote: ${rootImages.length} items found at root level (not in folders)`);
     }
 
   } catch (error) {
-    console.error('\n❌ Error fetching images:', error);
+    console.error('\n✖ Error fetching images:', error);
 
     if (error && error.message && error.message.includes('api_key')) {
       console.error('\nPlease set your Cloudinary credentials:');
@@ -200,7 +227,6 @@ async function fetchAllImages() {
   }
 }
 
-// Format folder name to display title
 function formatFolderName(folderName) {
   return folderName
     .split(/[-_]/)

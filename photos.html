@@ -5,38 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Photos - Filii Libertatis</title>
   <meta name="description" content="Photo albums from Sons of Liberty events." />
+  <link href="https://unpkg.com/cloudinary-video-player@2.0.4/dist/cld-video-player.min.css" rel="stylesheet">
   <style>
     :root { color-scheme: light dark; }
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 
-    /* Header Navigation */
     header { background: #1a1a1a; color: white; padding: 16px 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; position: relative; }
     header h1 { margin: 0; font-size: 28px; }
     header .hamburger { position: absolute; left: 24px; }
 
-    /* Hamburger Menu */
     .hamburger { cursor: pointer; display: flex; flex-direction: column; gap: 6px; padding: 8px; z-index: 1001; }
     .hamburger span { display: block; width: 30px; height: 3px; background: white; border-radius: 2px; transition: all 0.3s; }
     .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
     .hamburger.active span:nth-child(2) { opacity: 0; }
     .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
 
-    /* Navigation Menu */
     nav { position: fixed; top: 0; left: -300px; width: 300px; height: 100vh; background: #2a2a2a; padding: 80px 0 20px; transition: left 0.3s; z-index: 1000; box-shadow: 2px 0 8px rgba(0,0,0,0.3); }
     nav.active { left: 0; }
     nav a { display: block; color: white; text-decoration: none; font-size: 18px; padding: 16px 24px; transition: background 0.2s; border-left: 4px solid transparent; }
     nav a:hover { background: rgba(255,255,255,0.1); border-left-color: #0070f3; }
     nav a.active { background: rgba(255,255,255,0.15); border-left-color: #0070f3; }
 
-    /* Overlay */
     .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
     .overlay.active { display: block; }
 
-    /* Main Content */
     main { max-width: 1200px; margin: 0 auto; padding: 48px 16px; }
     .page-title { text-align: center; margin-bottom: 48px; }
 
-    /* Albums Grid */
     .albums-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 32px; }
     .album { background: #f5f5f5; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; }
     .album:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
@@ -44,50 +39,79 @@
     .album-info { padding: 16px; }
     .album-title { margin: 0 0 8px 0; font-size: 20px; font-weight: bold; color: #000; }
     .album-count { margin: 0; color: #666; font-size: 14px; }
-    .album-link { display: block; text-decoration: none; color: inherit; }
 
-    /* Gallery Modal */
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); }
-    .modal.active { display: flex; align-items: center; justify-content: center; }
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); }
+    .modal.active { display: block; }
+    .modal-wrapper { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
     .modal-content { max-width: 90%; max-height: 90%; position: relative; }
-    .modal-image { width: 100%; height: auto; max-height: 85vh; object-fit: contain; }
-    .modal-close { position: absolute; top: 20px; right: 40px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; }
-    .modal-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; font-size: 30px; padding: 16px; cursor: pointer; user-select: none; border-radius: 4px; }
-    .modal-nav:hover { background: rgba(255,255,255,0.3); }
+    .modal-image, .modal-video { width: 100%; height: auto; max-height: 85vh; object-fit: contain; }
+    .modal-close { position: fixed; top: 20px; right: 40px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 1002; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
+    .modal-close:hover { color: #ff4444; }
+    .modal-nav { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; font-size: 30px; padding: 16px; cursor: pointer; user-select: none; border-radius: 4px; z-index: 1002; backdrop-filter: blur(4px); }
+    .modal-nav:hover { background: rgba(255,255,255,0.4); }
     .modal-prev { left: 20px; }
     .modal-next { right: 20px; }
-    .modal-info { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: white; background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 4px; }
+    .modal-info { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); color: white; background: rgba(0,0,0,0.7); padding: 8px 16px; border-radius: 4px; z-index: 1002; }
 
-    /* Gallery Grid */
     .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 24px; }
-    .gallery-item { width: 100%; height: 200px; object-fit: cover; cursor: pointer; border-radius: 4px; transition: transform 0.2s; }
-    .gallery-item:hover { transform: scale(1.05); }
+    .gallery-item { position: relative; width: 100%; height: 200px; cursor: pointer; border-radius: 4px; overflow: hidden; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s; }
+    .gallery-item:hover img { transform: scale(1.05); }
+    .gallery-item .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; pointer-events: none; }
 
-    /* Mobile Optimizations */
+    .upload-btn { margin-left: 12px; padding: 12px 24px; font-size: 16px; cursor: pointer; background: #0070f3; color: white; border: none; border-radius: 4px; transition: background 0.2s; }
+    .upload-btn:hover { background: #0051cc; }
+
+    /* Video player container */
+    .cld-video-player { width: 100% !important; max-height: 85vh !important; }
+    
     @media (max-width: 768px) {
       header { padding: 12px 16px; }
       header h1 { font-size: 22px; }
       header .hamburger { left: 16px; }
       main { padding: 32px 12px; }
-      .page-title h2 { font-size: 24px; margin-bottom: 32px; }
       .albums-container { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-      .modal-nav { font-size: 24px; padding: 12px; }
-      .modal-close { top: 10px; right: 20px; font-size: 30px; }
+      
+      /* Mobile modal optimizations */
+      .modal-content { max-width: 95%; max-height: 95%; }
+      .modal-image, .modal-video { max-height: 80vh; }
+      .modal-nav { font-size: 20px; padding: 10px; background: rgba(255,255,255,0.3); }
+      .modal-prev { left: 10px; }
+      .modal-next { right: 10px; }
+      .modal-close { top: 10px; right: 15px; font-size: 35px; }
+      .modal-info { bottom: 10px; font-size: 14px; padding: 6px 12px; }
+      
+      /* Larger touch targets for navigation */
+      .modal-nav { min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      
+      .gallery { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .gallery-item { height: 150px; }
+      .gallery-item .play-icon { width: 40px; height: 40px; font-size: 20px; }
     }
 
     @media (max-width: 480px) {
-      header h1 { font-size: 20px; }
+      header h1 { font-size: 18px; }
       main { padding: 24px 12px; }
       .page-title h2 { font-size: 22px; margin-bottom: 24px; }
       .albums-container { grid-template-columns: 1fr; gap: 16px; }
+      .album-cover { height: 200px; }
       .album-title { font-size: 18px; }
       .album-count { font-size: 13px; }
+      
+      /* Very small screens */
+      .modal-nav { font-size: 18px; padding: 8px; }
+      .modal-close { font-size: 30px; }
+      .modal-info { font-size: 12px; }
+      .upload-btn { font-size: 14px; padding: 10px 20px; margin-left: 8px; margin-top: 8px; }
+      
+      .gallery { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+      .gallery-item { height: 120px; }
     }
-    /* Upload Button */
-    .upload-btn { margin-left: 12px; padding: 12px 24px; font-size: 16px; cursor: pointer; background: #0070f3; color: white; border: none; border-radius: 4px; transition: background 0.2s; }
-    .upload-btn:hover { background: #0051cc; }
   </style>
-  <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+  <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
+  <script src="https://unpkg.com/cloudinary-core@latest/cloudinary-core-shrinkwrap.min.js"></script>
+  <script src="https://unpkg.com/cloudinary-video-player@2.0.4/dist/cld-video-player.min.js"></script>
 </head>
 <body>
   <div class="overlay" id="overlay"></div>
@@ -112,24 +136,20 @@
     <div class="page-title">
       <h2>Photo Albums</h2>
     </div>
-    <div class="albums-container" id="albums-container">
-      <!-- Albums will be dynamically inserted here -->
-    </div>
+    <div class="albums-container" id="albums-container"></div>
   </main>
 
-  <!-- Modal for viewing full-size images -->
   <div class="modal" id="modal">
-    <span class="modal-close" onclick="closeModal()">&times;</span>
-    <span class="modal-nav modal-prev" onclick="navigateImage(-1)">&#10094;</span>
-    <span class="modal-nav modal-next" onclick="navigateImage(1)">&#10095;</span>
-    <div class="modal-content">
-      <img class="modal-image" id="modal-image" src="" alt="">
+    <div class="modal-wrapper">
+      <span class="modal-close" onclick="closeModal()">&times;</span>
+      <span class="modal-nav modal-prev" onclick="navigateImage(-1)">&#10094;</span>
+      <span class="modal-nav modal-next" onclick="navigateImage(1)">&#10095;</span>
+      <div class="modal-content" id="modal-content"></div>
       <div class="modal-info" id="modal-info"></div>
     </div>
   </div>
 
   <script>
-    // Hamburger menu functionality
     const hamburger = document.getElementById('hamburger');
     const nav = document.getElementById('nav');
     const overlay = document.getElementById('overlay');
@@ -143,68 +163,54 @@
     hamburger.addEventListener('click', toggleMenu);
     overlay.addEventListener('click', toggleMenu);
 
-    // Photo albums functionality
     let albums = [];
     let currentAlbum = null;
     let currentImageIndex = 0;
+    let videoPlayer = null;
 
-    // Load albums from JSON file
     async function loadAlbums() {
       try {
         const response = await fetch('images.json');
         const data = await response.json();
         albums = data.albums || [];
-
-        console.log(`Loaded ${albums.length} albums from Cloudinary`);
-
-        // Render albums
+        console.log(`Loaded ${albums.length} albums`);
         renderAlbums();
-
       } catch (error) {
         console.error('Error loading albums:', error);
         showPlaceholder();
       }
     }
 
-    // Show placeholder when no albums
     function showPlaceholder() {
-      const container = document.getElementById('albums-container');
-      container.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1/-1;">Run <code>npm run fetch-images</code> to load your photos from Cloudinary.</p>';
+      document.getElementById('albums-container').innerHTML = 
+        '<p style="text-align: center; color: #666; grid-column: 1/-1;">Run <code>npm run fetch-images</code> to load photos.</p>';
     }
 
-    // Render albums
     function renderAlbums() {
       const container = document.getElementById('albums-container');
-
       if (albums.length === 0) {
         showPlaceholder();
         return;
       }
 
       container.innerHTML = albums.map((album, index) => {
-        const coverUrl = album.coverImage
-          ? (typeof album.coverImage === 'string' ? album.coverImage : album.coverImage.url)
-          : (album.images[0] ? (typeof album.images[0] === 'string' ? album.images[0] : album.images[0].url) : 'https://via.placeholder.com/300x250/cccccc/666666?text=No+Images');
-
+        const coverUrl = album.coverImage?.url || album.images[0]?.url || 'https://via.placeholder.com/300x250';
         return `
           <div class="album" onclick="openAlbum(${index})">
             <img class="album-cover" src="${coverUrl}" alt="${album.title}">
             <div class="album-info">
               <h3 class="album-title">${album.title}</h3>
-              <p class="album-count">${album.images.length} photo${album.images.length !== 1 ? 's' : ''}</p>
+              <p class="album-count">${album.images.length} item${album.images.length !== 1 ? 's' : ''}</p>
             </div>
           </div>
         `;
       }).join('');
     }
 
-    // Open album view
     function openAlbum(albumIndex) {
-      const album = albums[albumIndex];
-      currentAlbum = album;
-
-      // Show gallery
+      currentAlbum = albums[albumIndex];
       const container = document.getElementById('albums-container');
+      
       container.innerHTML = `
         <div style="grid-column: 1/-1;">
           <div style="margin-bottom: 24px;">
@@ -215,16 +221,15 @@
               + Upload Photos
             </button>
           </div>
-          <h2 style="margin-bottom: 24px;">${album.title}</h2>
+          <h2 style="margin-bottom: 24px;">${currentAlbum.title}</h2>
           <div class="gallery">
-            ${album.images.map((item, idx) => {
-              const imgUrl = typeof item === 'string' ? item : item.url;
-              const isVideo = typeof item === 'object' && item.isVideo;
-              const playIcon = isVideo ? '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">▶</div>' : '';
+            ${currentAlbum.images.map((item, idx) => {
+              const thumbnailUrl = item.url;
+              const isVideo = item.isVideo;
               return `
-                <div style="position: relative; width: 100%; height: 200px;">
-                  <img class="gallery-item" src="${imgUrl}" alt="${album.title} - ${isVideo ? 'Video' : 'Photo'} ${idx + 1}" onclick="openModal(${idx})" style="width: 100%; height: 100%; object-fit: cover;">
-                  ${playIcon}
+                <div class="gallery-item" onclick="openModal(${idx})">
+                  <img src="${thumbnailUrl}" alt="${isVideo ? 'Video' : 'Photo'} ${idx + 1}">
+                  ${isVideo ? '<div class="play-icon">▶</div>' : ''}
                 </div>
               `;
             }).join('')}
@@ -233,7 +238,6 @@
       `;
     }
 
-    // Modal functions
     function openModal(imageIndex) {
       currentImageIndex = imageIndex;
       updateModalImage();
@@ -242,9 +246,18 @@
 
     function closeModal() {
       document.getElementById('modal').classList.remove('active');
+      if (videoPlayer) {
+        videoPlayer.dispose();
+        videoPlayer = null;
+      }
     }
 
     function navigateImage(direction) {
+      if (videoPlayer) {
+        videoPlayer.dispose();
+        videoPlayer = null;
+      }
+      
       currentImageIndex += direction;
       if (currentImageIndex < 0) currentImageIndex = currentAlbum.images.length - 1;
       if (currentImageIndex >= currentAlbum.images.length) currentImageIndex = 0;
@@ -252,45 +265,95 @@
     }
 
     function updateModalImage() {
-      const content = document.querySelector('.modal-content');
+      const content = document.getElementById('modal-content');
       const info = document.getElementById('modal-info');
       const item = currentAlbum.images[currentImageIndex];
 
-      const isVideo = typeof item === 'object' && item.isVideo;
-      const displayUrl = typeof item === 'string' ? item : (isVideo ? item.originalUrl : item.url);
+      // Update counter
+      info.textContent = `${currentImageIndex + 1} / ${currentAlbum.images.length}`;
 
-      if (isVideo) {
-        content.innerHTML = `
-          <video class="modal-image" controls autoplay style="width: 100%; height: auto; max-height: 85vh; object-fit: contain;">
-            <source src="${displayUrl}" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <div class="modal-info" id="modal-info">${currentImageIndex + 1} / ${currentAlbum.images.length}</div>
-        `;
+      if (item.isVideo) {
+        const isHEICLivePhoto = item.isHEICLivePhoto || item.originalUrl.toLowerCase().includes('.heic');
+        
+        if (isHEICLivePhoto) {
+          // HEIC live photos: autoplay looping without controls (like animated images)
+          content.innerHTML = `
+            <video class="modal-video" autoplay loop muted playsinline style="width: 100%; height: auto; max-height: 85vh; object-fit: contain;">
+              <source src="${item.originalUrl}" type="video/mp4">
+            </video>
+          `;
+        } else {
+          // Regular videos: use Cloudinary player with controls
+          const urlParts = item.originalUrl.split('/upload/');
+          const publicIdWithExt = urlParts[1].split('/').slice(1).join('/');
+          const publicId = publicIdWithExt.replace(/\.[^/.]+$/, '');
+
+          content.innerHTML = `
+            <video id="video-player" class="cld-video-player cld-fluid" controls></video>
+          `;
+
+          videoPlayer = cloudinary.videoPlayer('video-player', {
+            cloud_name: 'ddnebrkpu',
+            controls: true,
+            fluid: true,
+            muted: false,
+            autoplay: true,
+            transformation: { quality: 'auto' }
+          });
+
+          videoPlayer.source(publicId);
+        }
       } else {
         content.innerHTML = `
-          <img class="modal-image" src="${displayUrl}" alt="">
-          <div class="modal-info" id="modal-info">${currentImageIndex + 1} / ${currentAlbum.images.length}</div>
+          <img class="modal-image" src="${item.url}" alt="">
         `;
       }
     }
 
-    // Close modal on escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
       if (e.key === 'ArrowLeft') navigateImage(-1);
       if (e.key === 'ArrowRight') navigateImage(1);
     });
 
-    // Close modal on background click
     document.getElementById('modal').addEventListener('click', (e) => {
-      if (e.target.id === 'modal') closeModal();
+      // Only close if clicking the wrapper background, not the content or controls
+      if (e.target.classList.contains('modal-wrapper') || e.target.id === 'modal') {
+        closeModal();
+      }
     });
 
-    // Upload Widget
+    // Touch swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const minSwipeDistance = 50;
+
+    document.getElementById('modal').addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    document.getElementById('modal').addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const swipeDistance = touchEndX - touchStartX;
+      
+      if (Math.abs(swipeDistance) > minSwipeDistance) {
+        if (swipeDistance > 0) {
+          // Swipe right - go to previous
+          navigateImage(-1);
+        } else {
+          // Swipe left - go to next
+          navigateImage(1);
+        }
+      }
+    }
+
     function openUploadWidget() {
       if (!currentAlbum) return;
-
+      
       const widget = cloudinary.createUploadWidget({
         cloudName: 'ddnebrkpu',
         uploadPreset: 'SOLUpload',
@@ -298,39 +361,16 @@
         sources: ['local', 'camera'],
         multiple: true,
         maxFiles: 50,
-        clientAllowedFormats: ['jpg', 'jpeg', 'png', 'gif', 'heic', 'heif'],
-        styles: {
-          palette: {
-            window: '#FFFFFF',
-            windowBorder: '#1a1a1a',
-            tabIcon: '#0070f3',
-            menuIcons: '#1a1a1a',
-            textDark: '#000000',
-            textLight: '#FFFFFF',
-            link: '#0070f3',
-            action: '#0070f3',
-            inactiveTabIcon: '#999999',
-            error: '#F44235',
-            inProgress: '#0078FF',
-            complete: '#20B832',
-            sourceBg: '#f5f5f5'
-          }
-        }
+        clientAllowedFormats: ['jpg', 'jpeg', 'png', 'gif', 'heic', 'heif', 'mov', 'mp4']
       }, (error, result) => {
-        if (!error && result && result.event === 'success') {
-          console.log('Upload successful:', result.info);
-        }
-        if (!error && result && result.event === 'close') {
-          if (result.info && result.info.files && result.info.files.length > 0) {
-            alert(`${result.info.files.length} photo(s) uploaded successfully! Run "npm run fetch-images" locally to update the site.`);
-          }
+        if (!error && result?.event === 'close' && result.info?.files?.length > 0) {
+          alert(`${result.info.files.length} item(s) uploaded! Run "npm run fetch-images" to update the site.`);
         }
       });
 
       widget.open();
     }
 
-    // Initialize - load albums from JSON
     loadAlbums();
   </script>
 </body>
