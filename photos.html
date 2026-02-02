@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Photos - Filii Libertatis</title>
   <meta name="description" content="Photo albums from Sons of Liberty events." />
-  <link href="https://unpkg.com/cloudinary-video-player@2.0.4/dist/cld-video-player.min.css" rel="stylesheet">
   <style>
     :root { color-scheme: light dark; }
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
@@ -61,9 +60,6 @@
 
     .upload-btn { margin-left: 12px; padding: 12px 24px; font-size: 16px; cursor: pointer; background: #0070f3; color: white; border: none; border-radius: 4px; transition: background 0.2s; }
     .upload-btn:hover { background: #0051cc; }
-
-    /* Video player container */
-    .cld-video-player { width: 100% !important; max-height: 85vh !important; }
     
     @media (max-width: 768px) {
       header { padding: 12px 16px; }
@@ -110,8 +106,6 @@
     }
   </style>
   <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
-  <script src="https://unpkg.com/cloudinary-core@latest/cloudinary-core-shrinkwrap.min.js"></script>
-  <script src="https://unpkg.com/cloudinary-video-player@2.0.4/dist/cld-video-player.min.js"></script>
 </head>
 <body>
   <div class="overlay" id="overlay"></div>
@@ -166,7 +160,6 @@
     let albums = [];
     let currentAlbum = null;
     let currentImageIndex = 0;
-    let videoPlayer = null;
 
     async function loadAlbums() {
       try {
@@ -246,17 +239,21 @@
 
     function closeModal() {
       document.getElementById('modal').classList.remove('active');
-      if (videoPlayer) {
-        videoPlayer.dispose();
-        videoPlayer = null;
-      }
+      // Clean up any video elements
+      const videos = document.querySelectorAll('.modal-video');
+      videos.forEach(v => {
+        v.pause();
+        v.src = '';
+      });
     }
 
     function navigateImage(direction) {
-      if (videoPlayer) {
-        videoPlayer.dispose();
-        videoPlayer = null;
-      }
+      // Clean up any video elements
+      const videos = document.querySelectorAll('.modal-video');
+      videos.forEach(v => {
+        v.pause();
+        v.src = '';
+      });
       
       currentImageIndex += direction;
       if (currentImageIndex < 0) currentImageIndex = currentAlbum.images.length - 1;
@@ -275,35 +272,33 @@
       if (item.isVideo) {
         const isHEICLivePhoto = item.format === 'heic' || item.format === 'heif';
         
-        if (isHEICLivePhoto) {
-          // HEIC live photos: autoplay looping without controls (like animated images)
-          // Use Cloudinary's auto format conversion
-          const cloudinaryUrl = `https://res.cloudinary.com/ddnebrkpu/video/upload/${item.publicId}.mp4`;
+        // Convert Cloudinary video URL to use MP4 format (Cloudinary transcodes automatically)
+        // Replace .mov with .mp4 in the URL for better browser compatibility
+        let videoUrl = item.originalUrl.replace(/\.(mov|MOV)$/, '.mp4');
+        
+        const autoplayAttrs = isHEICLivePhoto ? 'autoplay loop muted' : 'controls';
+        
+        content.innerHTML = `
+          <video class="modal-video" ${autoplayAttrs} playsinline style="width: 100%; height: auto; max-height: 85vh; object-fit: contain;">
+            <source src="${videoUrl}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        `;
+        
+        // Add error handling
+        const video = content.querySelector('video');
+        video.addEventListener('error', function(e) {
+          console.error('Video playback error:', e, 'Tried URL:', videoUrl);
           content.innerHTML = `
-            <video class="modal-video" autoplay loop muted playsinline style="width: 100%; height: auto; max-height: 85vh; object-fit: contain;">
-              <source src="${cloudinaryUrl}" type="video/mp4">
-            </video>
+            <div style="color: white; text-align: center; padding: 40px;">
+              <p style="font-size: 18px; margin-bottom: 16px;">⚠️ Video couldn't load</p>
+              <p style="font-size: 14px; opacity: 0.8;">This video format may not be supported by your browser.</p>
+              <p style="font-size: 14px; opacity: 0.8;">Original format: ${item.format}</p>
+              <img src="${item.url}" alt="Video thumbnail" style="max-width: 400px; margin-top: 20px; border-radius: 8px;">
+            </div>
           `;
-        } else {
-          // Regular videos: use Cloudinary player with controls
-          content.innerHTML = `
-            <video id="video-player" class="cld-video-player cld-fluid" controls></video>
-          `;
-
-          // Initialize Cloudinary video player with public ID
-          setTimeout(() => {
-            videoPlayer = cloudinary.videoPlayer('video-player', {
-              cloud_name: 'ddnebrkpu',
-              controls: true,
-              fluid: true,
-              muted: false,
-              autoplay: true,
-              transformation: { quality: 'auto' }
-            });
-
-            videoPlayer.source(item.publicId);
-          }, 100);
-        }
+        });
+        
       } else {
         content.innerHTML = `
           <img class="modal-image" src="${item.url}" alt="">
