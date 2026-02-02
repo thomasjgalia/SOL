@@ -273,35 +273,36 @@
       info.textContent = `${currentImageIndex + 1} / ${currentAlbum.images.length}`;
 
       if (item.isVideo) {
-        const isHEICLivePhoto = item.isHEICLivePhoto || item.originalUrl.toLowerCase().includes('.heic');
+        const isHEICLivePhoto = item.format === 'heic' || item.format === 'heif';
         
         if (isHEICLivePhoto) {
           // HEIC live photos: autoplay looping without controls (like animated images)
+          // Use Cloudinary's auto format conversion
+          const cloudinaryUrl = `https://res.cloudinary.com/ddnebrkpu/video/upload/${item.publicId}.mp4`;
           content.innerHTML = `
             <video class="modal-video" autoplay loop muted playsinline style="width: 100%; height: auto; max-height: 85vh; object-fit: contain;">
-              <source src="${item.originalUrl}" type="video/mp4">
+              <source src="${cloudinaryUrl}" type="video/mp4">
             </video>
           `;
         } else {
           // Regular videos: use Cloudinary player with controls
-          const urlParts = item.originalUrl.split('/upload/');
-          const publicIdWithExt = urlParts[1].split('/').slice(1).join('/');
-          const publicId = publicIdWithExt.replace(/\.[^/.]+$/, '');
-
           content.innerHTML = `
             <video id="video-player" class="cld-video-player cld-fluid" controls></video>
           `;
 
-          videoPlayer = cloudinary.videoPlayer('video-player', {
-            cloud_name: 'ddnebrkpu',
-            controls: true,
-            fluid: true,
-            muted: false,
-            autoplay: true,
-            transformation: { quality: 'auto' }
-          });
+          // Initialize Cloudinary video player with public ID
+          setTimeout(() => {
+            videoPlayer = cloudinary.videoPlayer('video-player', {
+              cloud_name: 'ddnebrkpu',
+              controls: true,
+              fluid: true,
+              muted: false,
+              autoplay: true,
+              transformation: { quality: 'auto' }
+            });
 
-          videoPlayer.source(publicId);
+            videoPlayer.source(item.publicId);
+          }, 100);
         }
       } else {
         content.innerHTML = `

@@ -41,35 +41,23 @@ const albumCovers = {
   '2025, SOL November': 35
 };
 
-// Check if HEIC file is actually a live photo/video
-function isHEICVideo(resource) {
-  // HEIC live photos have video codec information
-  return resource.format === 'heic' && 
-         resource.resource_type === 'video';
-}
-
 // Convert Cloudinary URLs to browser-compatible formats
 function convertToBrowserFormat(resource) {
   const url = resource.secure_url;
   const resourceType = resource.resource_type;
-  const format = resource.format;
+  const format = resource.format ? resource.format.toLowerCase() : '';
 
-  // For HEIC live photos (videos), keep them as videos
-  if (isHEICVideo(resource)) {
+  // For videos (including MOV, MP4, HEIC videos)
+  if (resourceType === 'video') {
+    // Use video thumbnail for gallery view
+    const thumbnailUrl = url.replace('/video/upload/', '/video/upload/so_0,f_jpg,q_auto/');
+    
     return {
-      url: url,
+      url: thumbnailUrl,
       originalUrl: url,
       isVideo: true,
-      isHEICLivePhoto: true
-    };
-  }
-
-  // For regular videos (MOV, MP4, etc), use video thumbnail
-  if (resourceType === 'video') {
-    return {
-      url: url.replace('/video/upload/', '/video/upload/so_0,f_jpg,q_auto/'),
-      originalUrl: url,
-      isVideo: true
+      publicId: resource.public_id,
+      format: format
     };
   }
 
@@ -78,7 +66,9 @@ function convertToBrowserFormat(resource) {
     return {
       url: url.replace('/image/upload/', '/image/upload/f_auto,q_auto/'),
       originalUrl: url,
-      isVideo: false
+      isVideo: false,
+      publicId: resource.public_id,
+      format: format
     };
   }
 
@@ -87,14 +77,18 @@ function convertToBrowserFormat(resource) {
     return {
       url: url.replace('/image/upload/', '/image/upload/f_auto,q_auto/'),
       originalUrl: url,
-      isVideo: false
+      isVideo: false,
+      publicId: resource.public_id,
+      format: format
     };
   }
 
   return {
     url: url,
     originalUrl: url,
-    isVideo: false
+    isVideo: false,
+    publicId: resource.public_id,
+    format: format
   };
 }
 
