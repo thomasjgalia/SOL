@@ -1,8 +1,15 @@
 {
   "cloudName": "ddnebrkpu",
-  "lastUpdated": "2026-02-02T13:41:59.309Z",
-  "totalImages": 185,
+  "lastUpdated": "2026-02-03T00:09:59.606Z",
+  "totalImages": 186,
   "carouselImages": [
+    {
+      "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1770077348/2020%2C%20SOL%20November/IMG_4342_fvhnaq.jpg",
+      "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1770077348/2020%2C%20SOL%20November/IMG_4342_fvhnaq.jpg",
+      "isVideo": false,
+      "publicId": "2020, SOL November/IMG_4342_fvhnaq",
+      "format": "jpg"
+    },
     {
       "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957596/IMG_0317.jpg_compressed_ctzjvp.jpg",
       "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957596/IMG_0317.jpg_compressed_ctzjvp.jpg",
@@ -2715,13 +2722,20 @@
       "title": "2020, SOL November",
       "folder": "2020, SOL November",
       "coverImage": {
-        "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957595/IMG_0314.jpg_compressed_qn7wt8.jpg",
-        "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957595/IMG_0314.jpg_compressed_qn7wt8.jpg",
+        "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957596/IMG_0317.jpg_compressed_ctzjvp.jpg",
+        "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957596/IMG_0317.jpg_compressed_ctzjvp.jpg",
         "isVideo": false,
-        "publicId": "IMG_0314.jpg_compressed_qn7wt8",
+        "publicId": "IMG_0317.jpg_compressed_ctzjvp",
         "format": "jpg"
       },
       "images": [
+        {
+          "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1770077348/2020%2C%20SOL%20November/IMG_4342_fvhnaq.jpg",
+          "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1770077348/2020%2C%20SOL%20November/IMG_4342_fvhnaq.jpg",
+          "isVideo": false,
+          "publicId": "2020, SOL November/IMG_4342_fvhnaq",
+          "format": "jpg"
+        },
         {
           "url": "https://res.cloudinary.com/ddnebrkpu/image/upload/f_auto,q_auto/v1769957596/IMG_0317.jpg_compressed_ctzjvp.jpg",
           "originalUrl": "https://res.cloudinary.com/ddnebrkpu/image/upload/v1769957596/IMG_0317.jpg_compressed_ctzjvp.jpg",
